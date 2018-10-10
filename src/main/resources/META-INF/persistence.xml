@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+    <!-- link to information on how to configure eclipse link with a webserver and JTA data source http://www.eclipse.org/eclipselink/documentation/2.5/solutions/testingjpa002.htm -->
+    <!-- http://www.eclipse.org/eclipselink/documentation/2.4/solutions/tlandgs002.htm -->
     <persistence-unit name="se.havero_USER_PU" transaction-type="JTA">
+        <!-- persistence provider -->
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <!-- datasource jndi name defined at glassfish server -->
         <jta-data-source>jdbc/mysql</jta-data-source>
+        <!-- class to persist -->
         <class>se.havero.User</class>
         <properties>
             <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>

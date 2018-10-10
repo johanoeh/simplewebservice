@@ -1,23 +1,30 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * provides basic crud operations to the application
+ *
  */
 package se.havero;
 
 
 import java.util.List;
+import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+
 
 /**
  *
  * @author johan
  */
+@ApplicationScoped
 public class UserDao {
-
+    
+    static final String PU_NAME = "se.havero_USER_PU";
+    
+    @PersistenceContext(unitName = PU_NAME)
+    private EntityManager entityManager;
+    
     public UserDao() {
-      
 
     }
     
@@ -27,12 +34,7 @@ public class UserDao {
      */
     public void add(User user) {
 
-        DAOHelper helper = new DAOHelper(DAOHelper.PU_NAME);
-        EntityManager entityManager = helper.getEntityManager();
-        entityManager.getTransaction().begin();
         entityManager.persist(user);
-        entityManager.getTransaction().commit();
-        helper.close();
 
     }
 
@@ -42,14 +44,8 @@ public class UserDao {
      * @return a list of users
      */
     public List<User> get() {
-
-        List<User> users;
-        DAOHelper helper = new DAOHelper(DAOHelper.PU_NAME);
-        EntityManager emManager = helper.getEntityManager();
-        Query query = emManager.createNamedQuery(User.USER_ALL);
-        users = (List<User>) query.getResultList();
-        helper.close();
-
+        Query query = entityManager.createNamedQuery(User.USER_ALL);
+        List<User> users = (List<User>) query.getResultList();
         return users;
     }
 
@@ -71,6 +67,5 @@ public class UserDao {
         entityManager.getTransaction().commit();
 
     }
-
 
 }

@@ -1,18 +1,25 @@
 package se.havero;
 
 import java.util.List;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.transaction.Transactional;
 
 /**
  * Root resource (exposed at "myresource" path)
  */
 @Path("/userservice")
+@RequestScoped
+@Transactional
 public class UserService {
+    @Inject
+    private UserDao userDao;
 
     /**
      * Method handling HTTP GET requests. The returned object will be sent
@@ -24,7 +31,6 @@ public class UserService {
     @GET
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML}) 
     public List<User> getUsers() {
-          UserDao userDao = new UserDao();
         return userDao.get();
     }
     
@@ -32,7 +38,6 @@ public class UserService {
     @POST
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public User addUser(User user){
-        UserDao userDao = new UserDao();
         userDao.add(user);
         return user;
     }
